@@ -1,0 +1,127 @@
+body{
+    margin: 0;
+    font-family: Roboto; 
+    background: linear-gradient(90deg, #eec5c5 0%, #ffffff 100%);
+  }
+  .mainContainer {
+    padding: 2rem;
+    margin: 2rem;
+  }
+
+  .wrapper{
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1{
+    margin: 40px auto;
+    color: #319e52;
+    text-align: center;
+  }
+  h2 {
+    text-align: center;
+    color: #1c6131;
+
+  }
+  ul{
+    padding: 0;
+    list-style-type: none;
+  }
+  li{
+    padding: 6px 10px;
+    border: 1px solid #eee;
+    margin: 10px auto;
+  }
+  li h4{
+    color: #ff0aa7;
+    margin: 0;
+    text-transform: capitalize;
+  }
+  li p{
+    color: #333;
+    margin: 8px 0 0;
+  }
+.container{
+    margin-bottom : 2rem;
+    background: #eec5c5;
+    padding: 60px;
+    margin-top: 60px;
+  
+  }
+  form{
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  label{
+    display: block;
+    font-weight: bold;
+    font-size: 1em;
+    color: #333;
+    margin: 16px 0 6px;
+  }
+  input, select{
+    padding: 6px;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+  }
+  .field{
+    display: inline-block;
+    margin: 0 10px;
+  }
+  button{
+    color: white;
+    border: 0;
+    background: #ff0aa7;
+    padding: 6px;
+    min-width: 80px;
+    border-radius: 4px;
+  }
+  .container a{
+    text-align: center;
+    display: block;
+    color: #999;
+    margin-top: 40px;
+    font-size: 0.7em;
+  }
+  .belowContainer {
+    padding:6rem;
+    clip-path:polygon(50% 0%, 100% 0, 100% 65%, 50% 100%, 0 65%, 0 0);
+    height: 30vh;
+    background: #eec5c5;  }
+    .marginHere {
+        margin-bottom: 2rem;
+    }
+    .showList {
+        padding-top: 2rem;
+        clip-path: polygon(50% 0%, 100% 5%, 100% 60%, 50% 95%, 0 60%, 0 5%);
+        background: #cf8e8e;
+        text-align: center;       
+         background: #cf8e8e;
+         padding-bottom: 4rem;
+    }
+    .showList li {
+        border: none; /* Remove the border */
+      }
+  
+    
+    @keyframes color-rotate {
+        from {
+            filter: hue-rotate(0deg);
+        }
+        to {
+            filter: hue-rotate(380deg);
+        }
+    }
+    
+    
+    .showList:hover {
+        animation-name: color-rotate; /* Add this line */
+        animation-duration: 4s;
+      }
+  @media screen and (min-width: 750px) {
+    .container {
+        clip-path:polygon(50% 0%, 100% 0, 100% 65%, 50% 100%, 0 65%, 0 0);
+        height: 20vh;
+    }
+    
+  }
