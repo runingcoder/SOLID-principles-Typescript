@@ -19,21 +19,14 @@
 // so this was the implementation of SRP principle.
 
 // Good example: Abiding by SRP::
-
-let collegeName = document.getElementById("collegeName") as HTMLInputElement;
-let appearanceFrequency = document.getElementById("participation") as HTMLInputElement;
-let email = document.getElementById("email") as HTMLInputElement;
-let content = document.getElementById("content") as HTMLInputElement;
-let sendEmail = document.getElementById("email2") as HTMLInputElement;
-let viewTeamElements = document.querySelector(".viewTeams") as HTMLInputElement; 
-
+import {RegistrationFeeCalculator, PrivateCollegeRegistrationFeeCalculator, GovCollegeRegistrationFeeCalculator, InternationalCollegeRegistrationFeeCalculator} from './OCP';
 
 interface StorageItem {
     key: string;
     data: any;
 }
 
-class LocalStorageService {
+export class LocalStorageService {
     static getItem<T>(key: string): T | null {
         const storedItem = localStorage.getItem(key);
         if (storedItem) {
@@ -47,27 +40,31 @@ class LocalStorageService {
     }
 }
 
-
-interface Email {
+export interface Email {
     content: string;
     email: string;
 }
 
-interface Team {
+export interface Team {
     collegeName: string;
     appearanceFrequency: number;
     email: string;
+    background: string;
+    registrationFee?: number;
 }
-
-
-class TeamRepository {
+export class TeamRepository {
     private teams: Team[];
-
+    // private registrationFeeCalculator: RegistrationFeeCalculator;
+    // constructor(registrationFeeCalculator: RegistrationFeeCalculator)
     constructor() {
         this.teams = LocalStorageService.getItem<Team[]>("teamList") || [];
+
+
     }
 
     registerTeam(team: Team) {
+        // team.registrationFee = this.calculateRegistrationFee(team);
+
         this.teams.push(team);
         console.log('New Team List is:', this.teams);
         LocalStorageService.setItem('teamList', this.teams);
@@ -80,36 +77,20 @@ class TeamRepository {
     
         this.teams.forEach((team) => {
           const teamElement = document.createElement("li");
-          teamElement.textContent = `${team.collegeName} has particpated ${team.appearanceFrequency} times and their email is - ${team.email}`;
+
+          teamElement.textContent = `${team.collegeName} (${team.background} college) has particpated ${team.appearanceFrequency} times and their email is - ${team.email}`;
           listShow.appendChild(teamElement);
         });
+      }
+      deleteAllTeamMembers() {
+        this.teams = [];
+        LocalStorageService.setItem('teamList', this.teams);
+        this.updateTeamList();
       }
     
 
 } 
-
-
-let formButton = document.getElementById("myForm") as HTMLFormElement;
-formButton.addEventListener("submit", (e: Event) => {
-    e.preventDefault();
-
-    const collegeNameInput = document.getElementById("collegeName") as HTMLInputElement;
-    const appearanceFrequencyInput = document.getElementById("participation") as HTMLInputElement;
-    const emailInput = document.getElementById("email") as HTMLInputElement;
-
-    const newTeam: Team = {
-        collegeName: collegeNameInput.value,
-        appearanceFrequency: parseInt(appearanceFrequencyInput.value),
-        email: emailInput.value
-    };
-
-    const teamRepository = new TeamRepository();
-    teamRepository.registerTeam(newTeam);
-    formButton.reset();
-
-});
-
-class EmailService {
+export class EmailService {
     private emails: Email[];
     constructor() {
         this.emails = LocalStorageService.getItem<Email[]>("emailList") || [];
@@ -123,28 +104,3 @@ class EmailService {
         LocalStorageService.setItem('emailList', this.emails);
     }
 }
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    const teamRepository = new TeamRepository();
-    teamRepository.updateTeamList();
-  });
-  
-
-
-const emailService = new EmailService();
-let emailForm = document.getElementById("emailForm") as HTMLFormElement;
-emailForm.addEventListener("submit", (e: Event) => {
-    e.preventDefault();
-    let newEmail: Email = {
-        content: content.value,
-        email: sendEmail.value
-    }
-    emailService.sendEmail(newEmail);
-    emailForm.reset();
-});
-
-
-
-// const emailService = new EmailService();
-// emailService.sendEmail(user.email, "Welcome to our platform!");

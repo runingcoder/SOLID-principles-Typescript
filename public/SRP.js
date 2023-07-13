@@ -1,30 +1,9 @@
-"use strict";
 // // Bad example: Violation of SRP
 // class Team {
 //     registerTeams(user: User) {
 //       // Code for saving user to database
 //     }
-//     sendEmail(email: string, content: string) {
-//       // Code for sending email
-//     }
-// }
-// instead of this we can use two different class for two different task which abides by SRP that is
-// segregating functoins.
-// This principle aims to separate behaviours so that if bugs arise as a result of your change in one function,
-//  it won’t affect other unrelated behaviours.
-// we have used separate class for email and team registration and handling local storage functionality as well.
-// While this might seem like a lot of work, it will pay off in the long run as your codebase grows.
-//  You will be able to easily find the code you need to change and make the change 
-// without worrying about breaking other parts of your codebase.
-// so this was the implementation of SRP principle.
-// Good example: Abiding by SRP::
-let collegeName = document.getElementById("collegeName");
-let appearanceFrequency = document.getElementById("participation");
-let email = document.getElementById("email");
-let content = document.getElementById("content");
-let sendEmail = document.getElementById("email2");
-let viewTeamElements = document.querySelector(".viewTeams");
-class LocalStorageService {
+export class LocalStorageService {
     static getItem(key) {
         const storedItem = localStorage.getItem(key);
         if (storedItem) {
@@ -36,11 +15,14 @@ class LocalStorageService {
         localStorage.setItem(key, JSON.stringify(data));
     }
 }
-class TeamRepository {
+export class TeamRepository {
+    // private registrationFeeCalculator: RegistrationFeeCalculator;
+    // constructor(registrationFeeCalculator: RegistrationFeeCalculator)
     constructor() {
         this.teams = LocalStorageService.getItem("teamList") || [];
     }
     registerTeam(team) {
+        // team.registrationFee = this.calculateRegistrationFee(team);
         this.teams.push(team);
         console.log('New Team List is:', this.teams);
         LocalStorageService.setItem('teamList', this.teams);
@@ -51,27 +33,17 @@ class TeamRepository {
         listShow.innerHTML = "";
         this.teams.forEach((team) => {
             const teamElement = document.createElement("li");
-            teamElement.textContent = `${team.collegeName} has particpated ${team.appearanceFrequency} times and their email is - ${team.email}`;
+            teamElement.textContent = `${team.collegeName} (${team.background} college) has particpated ${team.appearanceFrequency} times and their email is - ${team.email}`;
             listShow.appendChild(teamElement);
         });
     }
+    deleteAllTeamMembers() {
+        this.teams = [];
+        LocalStorageService.setItem('teamList', this.teams);
+        this.updateTeamList();
+    }
 }
-let formButton = document.getElementById("myForm");
-formButton.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const collegeNameInput = document.getElementById("collegeName");
-    const appearanceFrequencyInput = document.getElementById("participation");
-    const emailInput = document.getElementById("email");
-    const newTeam = {
-        collegeName: collegeNameInput.value,
-        appearanceFrequency: parseInt(appearanceFrequencyInput.value),
-        email: emailInput.value
-    };
-    const teamRepository = new TeamRepository();
-    teamRepository.registerTeam(newTeam);
-    formButton.reset();
-});
-class EmailService {
+export class EmailService {
     constructor() {
         this.emails = LocalStorageService.getItem("emailList") || [];
     }
@@ -83,20 +55,3 @@ class EmailService {
         LocalStorageService.setItem('emailList', this.emails);
     }
 }
-document.addEventListener("DOMContentLoaded", function () {
-    const teamRepository = new TeamRepository();
-    teamRepository.updateTeamList();
-});
-const emailService = new EmailService();
-let emailForm = document.getElementById("emailForm");
-emailForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    let newEmail = {
-        content: content.value,
-        email: sendEmail.value
-    };
-    emailService.sendEmail(newEmail);
-    emailForm.reset();
-});
-// const emailService = new EmailService();
-// emailService.sendEmail(user.email, "Welcome to our platform!");

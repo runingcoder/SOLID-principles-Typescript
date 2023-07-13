@@ -64,6 +64,20 @@ body{
     border: 1px solid #e1e1e1;
     border-radius: 4px;
   }
+  li {
+    color: white;
+  }
+  .line{
+    display: flex;
+    justify-content: center;
+  }
+  #delbutton {
+    margin-left: 8rem;
+  }
+  #delbutton:hover {
+    background: #9091e9;
+  }
+
   .field{
     display: inline-block;
     margin: 0 10px;
