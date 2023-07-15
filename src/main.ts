@@ -3,6 +3,12 @@ import { TeamRepository, EmailService, Email, Team } from "./SRP.js";
 let content = document.getElementById("content") as HTMLInputElement;
 let sendEmail = document.getElementById("email2") as HTMLInputElement;
 let delButton = document.getElementById("delbutton") as HTMLInputElement;
+const collegeNameInput = document.getElementById("collegeName") as HTMLInputElement;
+const appearanceFrequencyInput = document.getElementById("participation") as HTMLInputElement;
+const emailInput = document.getElementById("email") as HTMLInputElement;
+const backgroundInput = document.getElementById("collegeType") as HTMLInputElement;
+
+
 
 delButton.addEventListener("click", function () {
     const teamRepository = new TeamRepository();
@@ -12,14 +18,17 @@ delButton.addEventListener("click", function () {
 
 let formButton = document.getElementById("myForm") as HTMLFormElement;
 formButton.addEventListener("submit", (e: Event) => {
-    e.preventDefault();
-
-    const collegeNameInput = document.getElementById("collegeName") as HTMLInputElement;
-    const appearanceFrequencyInput = document.getElementById("participation") as HTMLInputElement;
-    const emailInput = document.getElementById("email") as HTMLInputElement;
-    const backgroundInput = document.getElementById("collegeType") as HTMLInputElement;
-
+    e.preventDefault();  
+    function generateRandomString() {
+        const characters = 'abcdefghijklmnopqrstuvwxyz';
+        let randomString = '';
+        for (let i = 0; i < 5; i++) {
+          randomString += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return randomString;
+      }
     const newTeam: Team = {
+        id: generateRandomString(),
         collegeName: collegeNameInput.value,
         appearanceFrequency: parseInt(appearanceFrequencyInput.value),
         email: emailInput.value,

@@ -32,33 +32,34 @@
 
 
 export interface RegistrationFeeCalculator {
-    calculateFee(appearanceFrequency: number): number;
+    calculateFee(appearanceFrequency: number): string;
   }
   
   export class PrivateCollegeRegistrationFeeCalculator implements RegistrationFeeCalculator {
-    calculateFee(appearanceFrequency: number): number {
-      const baseFee = 150;
+    calculateFee(appearanceFrequency: number): string {
+      const baseFee = 35000;
       const discountPercentage = 0.1;
-      const discountedFinalFee = baseFee - baseFee * discountPercentage * appearanceFrequency;  
-      return Math.max(discountedFinalFee, 0);
-    }
+      const discountedFinalFee = baseFee - baseFee * discountPercentage * (1+ (100* appearanceFrequency)/baseFee);  
+      const formattedFee = Math.floor(Math.max(discountedFinalFee, 0)).toLocaleString();
+      return formattedFee;    }
   }
   
   export class GovCollegeRegistrationFeeCalculator implements RegistrationFeeCalculator {
-    calculateFee(appearanceFrequency: number): number {
-      const baseFee = 100;
+    calculateFee(appearanceFrequency: number): string {
+      const baseFee = 25000;
       const discountPercentage = 0.2;
-      const discountedFinalFee = baseFee - baseFee * discountPercentage * appearanceFrequency;  
-      return Math.max(discountedFinalFee, 0);
-    }
+      const discountedFinalFee = baseFee - baseFee * discountPercentage * (1+ (100* appearanceFrequency)/baseFee);  
+  
+      const formattedFee = Math.floor(Math.max(discountedFinalFee, 0)).toLocaleString();
+      return formattedFee;    }
   }
   
   export class InternationalCollegeRegistrationFeeCalculator implements RegistrationFeeCalculator {
-    calculateFee(appearanceFrequency: number): number {
-      const baseFee = 1000;
+    calculateFee(appearanceFrequency: number): string {
+      const baseFee = 60000;
       const discountPercentage = 0.05;
-      const discountedFinalFee = baseFee - baseFee * discountPercentage * appearanceFrequency;  
-      return Math.max(discountedFinalFee, 0);
-    }
+      const discountedFinalFee = baseFee - baseFee * discountPercentage * (1+ (100* appearanceFrequency)/baseFee);  
+      const formattedFee = Math.floor(Math.max(discountedFinalFee, 0)).toLocaleString();
+      return formattedFee;    }
   }
   

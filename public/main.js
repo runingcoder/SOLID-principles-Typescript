@@ -3,6 +3,10 @@ import { TeamRepository, EmailService } from "./SRP.js";
 let content = document.getElementById("content");
 let sendEmail = document.getElementById("email2");
 let delButton = document.getElementById("delbutton");
+const collegeNameInput = document.getElementById("collegeName");
+const appearanceFrequencyInput = document.getElementById("participation");
+const emailInput = document.getElementById("email");
+const backgroundInput = document.getElementById("collegeType");
 delButton.addEventListener("click", function () {
     const teamRepository = new TeamRepository();
     console.log("delete button clicked");
@@ -11,11 +15,16 @@ delButton.addEventListener("click", function () {
 let formButton = document.getElementById("myForm");
 formButton.addEventListener("submit", (e) => {
     e.preventDefault();
-    const collegeNameInput = document.getElementById("collegeName");
-    const appearanceFrequencyInput = document.getElementById("participation");
-    const emailInput = document.getElementById("email");
-    const backgroundInput = document.getElementById("collegeType");
+    function generateRandomString() {
+        const characters = 'abcdefghijklmnopqrstuvwxyz';
+        let randomString = '';
+        for (let i = 0; i < 5; i++) {
+            randomString += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return randomString;
+    }
     const newTeam = {
+        id: generateRandomString(),
         collegeName: collegeNameInput.value,
         appearanceFrequency: parseInt(appearanceFrequencyInput.value),
         email: emailInput.value,

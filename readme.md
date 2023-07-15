@@ -1,6 +1,13 @@
 **SOLID Principles Implementation**
 This repository serves as an implementation of the SOLID principles, which provide a set of guidelines for writing clean, efficient, and maintainable code. By following these principles, codebases become more organized, easier to understand, and less prone to bugs. Top-level organizations widely adopt these principles to ensure the production of high-quality code.
 
+
+
+* **S** - Single Responsibility Principle ([SRP](./src/SRP.ts))
+* **O** - Open Closed Principle ([OCP](./src/OCP.ts))
+* **L** - Liskov Substitution Principle ([LSP](./src/LSP.ts))
+* **I** - Interface Segregation Principle ([ISP](./src/ISP.ts))
+* **D** - Dependency Inversion Principle ([DIP](./src/DIP.ts))
 The SOLID acronym represents the following principles:
 
 **Single Responsibility Principle (SRP)**

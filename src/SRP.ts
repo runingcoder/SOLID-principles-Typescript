@@ -19,7 +19,7 @@
 // so this was the implementation of SRP principle.
 
 // Good example: Abiding by SRP::
-import {RegistrationFeeCalculator, PrivateCollegeRegistrationFeeCalculator, GovCollegeRegistrationFeeCalculator, InternationalCollegeRegistrationFeeCalculator} from './OCP';
+import { RegistrationFeeCalculator, PrivateCollegeRegistrationFeeCalculator, GovCollegeRegistrationFeeCalculator, InternationalCollegeRegistrationFeeCalculator } from './OCP.js';
 
 interface StorageItem {
     key: string;
@@ -46,56 +46,89 @@ export interface Email {
 }
 
 export interface Team {
+    id: string;
     collegeName: string;
     appearanceFrequency: number;
     email: string;
     background: string;
-    registrationFee?: number;
+    registrationFee?: string;
 }
 export class TeamRepository {
     private teams: Team[];
-    // private registrationFeeCalculator: RegistrationFeeCalculator;
-    // constructor(registrationFeeCalculator: RegistrationFeeCalculator)
+    private registrationFeeCalculators: Record<string, () => RegistrationFeeCalculator>;
     constructor() {
         this.teams = LocalStorageService.getItem<Team[]>("teamList") || [];
-
-
+        this.registrationFeeCalculators = {
+            'Private': () => new PrivateCollegeRegistrationFeeCalculator(),
+            'Governmental': () => new GovCollegeRegistrationFeeCalculator(),
+            'International': () => new InternationalCollegeRegistrationFeeCalculator()
+        };
+    }
+    calculateFeeFunction(team: Team) {
+        const background = team.background;
+        const calculatorConstructor = this.registrationFeeCalculators[background];
+        const calculator = calculatorConstructor();
+        team.registrationFee = calculator.calculateFee(team.appearanceFrequency);
+        if (!calculatorConstructor) {
+            throw new Error(`No registration fee calculator found for college type: ${background}`);
+        }
     }
 
-    registerTeam(team: Team) {
-        // team.registrationFee = this.calculateRegistrationFee(team);
 
+    registerTeam(team: Team) {
+        this.calculateFeeFunction(team);
         this.teams.push(team);
         console.log('New Team List is:', this.teams);
         LocalStorageService.setItem('teamList', this.teams);
         this.updateTeamList();
 
     }
-     updateTeamList() {
+    updateTeamList() {
         const listShow = document.querySelector(".showList") as HTMLInputElement;
         listShow.innerHTML = "";
-    
-        this.teams.forEach((team) => {
-          const teamElement = document.createElement("li");
 
-          teamElement.textContent = `${team.collegeName} (${team.background} college) has particpated ${team.appearanceFrequency} times and their email is - ${team.email}`;
-          listShow.appendChild(teamElement);
+        this.teams.forEach((team) => {
+            const teamElement = document.createElement("li");
+            teamElement.textContent = `${team.collegeName} (
+                ${team.background} college) has participated ${team.appearanceFrequency} 
+                times  and their registration fee is Rs.${team.registrationFee} !`;
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.classList.add("deleteButton", `${team.id}`);
+            teamElement.appendChild(deleteButton); // Append the delete button to the teamElement
+            listShow.appendChild(teamElement);
+            let itemdelButton = document.querySelector('.' + team.id) as HTMLButtonElement;
+            itemdelButton.addEventListener("click", function () {   
+                const teamRepository = new TeamRepository();
+                const teamIdClass = team.id;            
+                teamRepository.deleteMember(teamIdClass);
+                teamRepository.updateTeamList();            
+               
+            });
+
+
         });
-      }
-      deleteAllTeamMembers() {
+    }
+    deleteMember(id: string) {
+        this.teams = this.teams.filter((team) => team.id !== id);
+        LocalStorageService.setItem('teamList', this.teams);
+        this.updateTeamList();
+
+    }
+    deleteAllTeamMembers() {
         this.teams = [];
         LocalStorageService.setItem('teamList', this.teams);
         this.updateTeamList();
-      }
-    
+    }
 
-} 
+
+}
 export class EmailService {
     private emails: Email[];
     constructor() {
         this.emails = LocalStorageService.getItem<Email[]>("emailList") || [];
     }
- //can define other methods relating to email like validation, sending email etc here in this class.
+    //can define other methods relating to email like validation, sending email etc here in this class.
 
     sendEmail(email: Email) {
         // Code for sending email depending on platform
