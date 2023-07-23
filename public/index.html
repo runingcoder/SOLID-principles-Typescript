@@ -3,10 +3,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TypeScript Tutorial</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-8FRgwsdJXgJow0hJfSBpYATy6tVwD+zTmopK35d1CHj8LSoB5kROGR8P6V6jT9svlaq62i7Fp9uksvZKp8oQg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://kit.fontawesome.com/429f2eb390.js" crossorigin="anonymous"> </script>
 </head>
 <body>
+  <div id="scrollToTop" title="Scroll to Top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </div>
 
+  <nav id="navbar">
+    <ul>
+        <a href="#register">
+            <li>Register</li>
+        </a>
+        <li><a href="contact.html">Gallery</a></li>
+
+        <a href="#contact">
+            <li>Contact Us</li>
+        </a>
+         </ul>
+</nav>
     <div class="wrapper">
         <h1>Intertech Basketball Records 🏀</h1>
         <div class="line">
@@ -23,9 +42,9 @@
     
       </div>
       
-    <div class="mainContainer">
-      <div class="container">
-        <form id = 'myForm' class="new-item-form ">
+
+      <div id="register" class="container">
+        <form id = 'myForm' class="new-item-form">
          
           <div class="field">
             <label>College Name</label>
@@ -56,7 +75,7 @@
         
       </div>
       <h1>Send the email!</h1>
-      <div class="belowContainer">
+      <div id="contact" class="belowContainer">
         <form id ="emailForm" class="new-item-form">
          
             <div class="field">
@@ -72,7 +91,8 @@
             <button>Send</button>
           </form>
       </div>
-    </div>
+   
+  
 
 
   <script type="module" src='main.js'></script>

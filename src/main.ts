@@ -1,3 +1,30 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const scrollToTopBtn: HTMLElement | null = document.getElementById("scrollToTop");
+
+  if (scrollToTopBtn) {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        scrollToTopBtn.classList.add("show");
+      } else {
+        scrollToTopBtn.classList.remove("show");
+      }
+    });
+
+    scrollToTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Add touch event listener for mobile devices
+    scrollToTopBtn.addEventListener("touchstart", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+});
+    
+
+
+
+
 import { TeamRepository, EmailService, Email, Team } from "./SRP.js";
 // import from .js file even though we are working with ts files. Remember this.
 let content = document.getElementById("content") as HTMLInputElement;
