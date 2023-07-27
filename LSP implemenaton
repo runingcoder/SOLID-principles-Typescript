@@ -1,0 +1,77 @@
+Yes, that's correct! If you want to use these reward provider classes as methods to be called when a user clicks a button on HTML, you would need to inject the instances of these classes into the main class where the button click handling takes place.
+
+Here's an example of how you can do this:
+
+```typescript
+// RewardProvider interface
+interface RewardProvider {
+  provideReward(): void;
+}
+
+// TotalPointsBasedRewardProvider class implementing RewardProvider interface
+class TotalPointsBasedRewardProvider implements RewardProvider {
+  provideReward(): void {
+    // Logic to provide reward based on total points scored by the team
+    console.log('Reward provided based on total points scored.');
+  }
+}
+
+// MonetaryRewardProvider class implementing RewardProvider interface
+class MonetaryRewardProvider implements RewardProvider {
+  provideReward(): void {
+    // Logic to provide monetary reward
+    console.log('Monetary reward provided.');
+  }
+}
+
+// GiftCardRewardProvider class implementing RewardProvider interface
+class GiftCardRewardProvider implements RewardProvider {
+  provideReward(): void {
+    // Logic to provide gift card as a reward
+    console.log('Gift card reward provided.');
+  }
+}
+
+class TeamManager {
+  totalPointsRewardProvider: RewardProvider;
+  monetaryRewardProvider: RewardProvider;
+  giftCardRewardProvider: RewardProvider;
+
+  constructor() {
+    this.totalPointsRewardProvider = new TotalPointsBasedRewardProvider();
+    this.monetaryRewardProvider = new MonetaryRewardProvider();
+    this.giftCardRewardProvider = new GiftCardRewardProvider();
+  }
+
+  onTotalPointsRewardClick(): void {
+    this.totalPointsRewardProvider.provideReward();
+  }
+
+  onMonetaryRewardClick(): void {
+    this.monetaryRewardProvider.provideReward();
+  }
+
+  onGiftCardRewardClick(): void {
+    this.giftCardRewardProvider.provideReward();
+  }
+}
+
+// Example usage in HTML and JavaScript
+
+// HTML button elements
+const totalPointsRewardButton = document.getElementById('totalPointsRewardButton') as HTMLButtonElement;
+const monetaryRewardButton = document.getElementById('monetaryRewardButton') as HTMLButtonElement;
+const giftCardRewardButton = document.getElementById('giftCardRewardButton') as HTMLButtonElement;
+
+// Create an instance of TeamManager
+const teamManager = new TeamManager();
+
+// Attach click event listeners to the buttons
+totalPointsRewardButton.addEventListener('click', () => teamManager.onTotalPointsRewardClick());
+monetaryRewardButton.addEventListener('click', () => teamManager.onMonetaryRewardClick());
+giftCardRewardButton.addEventListener('click', () => teamManager.onGiftCardRewardClick());
+```
+
+In this example, we have a `TeamManager` class that contains instances of the reward provider classes (`TotalPointsBasedRewardProvider`, `MonetaryRewardProvider`, and `GiftCardRewardProvider`). When a user clicks on a button associated with each type of reward, the corresponding method in the `TeamManager` class is called, and it, in turn, invokes the appropriate method on the corresponding reward provider class.
+
+By injecting the reward provider classes into the `TeamManager` class, we can easily manage and use these classes within the context of the button click event handling. This way, the `TeamManager` class acts as a mediator between the HTML button click events and the reward provider classes, making the code cleaner and more organized.

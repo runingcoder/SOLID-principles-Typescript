@@ -22,19 +22,22 @@ a {
 }
 
 nav {
+  padding: 2rem 0;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: block;
   background-color: #383535;
+  text-align: center;
 }
 nav ul {
   list-style: none;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 1rem;
 }
 nav li {
+  text-wrap: nowrap;
   font-size: 1.375rem;
-  margin-right: 1.25rem;
   color: white;
   padding: 0.938rem;
   text-decoration: none !important;
@@ -83,8 +86,8 @@ form {
 
 label {
   display: block;
-  font-weight: bold;
-  font-size: 1em;
+  font-weight: 200;
+  font-size: 1.3rem;
   color: #1E1E1E;
   margin: 16px 0 6px;
 }
@@ -112,7 +115,11 @@ li {
 }
 
 #delbutton:hover {
-  background: green;
+  background: rgb(63, 34, 65);
+}
+
+.form-hidden {
+  display: none;
 }
 
 .field {
@@ -124,13 +131,20 @@ button {
   color: white;
   border: 0;
   background: #ff0aa7;
-  padding: 6px;
+  padding: 0.6rem 1rem;
   min-width: 80px;
-  border-radius: 4px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 1rem;
 }
-button:hover :hover {
-  background: green;
+button:hover {
+  box-shadow: inset;
+  background: rgb(63, 34, 65);
   cursor: pointer;
+  transform: translateY(-0.5rem);
+}
+button:active {
+  transform: translateY(0);
 }
 
 .belowContainer {
@@ -154,10 +168,6 @@ button:hover :hover {
 }
 .polygon {
   background: #cf8e8e;
-  text-align: center;
-  padding-bottom: 1rem;
-  padding-top: 1rem;
-  margin-bottom: 2rem;
   border-radius: 20px;
 }
 .polygon:hover {
@@ -166,14 +176,25 @@ button:hover :hover {
   animation-duration: 5s;
 }
 
+.team-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  color: #1E1E1E;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+.team-details p {
+  width: 100%;
+}
+
 .showList {
   list-style-type: none;
-  margin: 3rem 3rem;
 }
 .showList li {
   border: none;
   font-weight: 800;
-  margin-bottom: 2rem;
   color: white;
   /* color: $text-color; */
 }
@@ -222,9 +243,29 @@ button:hover :hover {
     margin: 0 auto;
   }
 }
+.team-details-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.team-details-wrapper p {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
 @media screen and (min-width: 750px) {
+  .team-details {
+    flex-direction: row;
+  }
   nav {
-    justify-content: flex-end;
+    padding: 0;
+  }
+  nav ul {
+    margin-left: 60vw;
+    flex-direction: row;
+    justify-content: center;
   }
   .belowContainer {
     width: 90%;

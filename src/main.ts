@@ -1,3 +1,17 @@
+import { TeamRepository, EmailService, Email, Team } from "./SRP.js";
+
+const currentPageId = document.body.id;
+
+
+if (currentPageId === "addTeamPage") {
+  document.addEventListener("DOMContentLoaded", function() {
+    const teamRepository = new TeamRepository();
+    teamRepository.displayTeamListWithMembersButton();
+  });
+  
+}
+else {
+
 document.addEventListener("DOMContentLoaded", () => {
   const scrollToTopBtn: HTMLElement | null = document.getElementById("scrollToTop");
 
@@ -22,10 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
     
 
-
-
-
-import { TeamRepository, EmailService, Email, Team } from "./SRP.js";
 // import from .js file even though we are working with ts files. Remember this.
 let content = document.getElementById("content") as HTMLInputElement;
 let sendEmail = document.getElementById("email2") as HTMLInputElement;
@@ -37,29 +47,54 @@ const backgroundInput = document.getElementById("collegeType") as HTMLInputEleme
 
 
 
-delButton.addEventListener("click", function () {
+  delButton.addEventListener("click", function () {
     const teamRepository = new TeamRepository();
     console.log("delete button clicked");
     teamRepository.deleteAllTeamMembers();
   });
 
+
+
+
+
+  function validateForm() {
+    const collegeName = collegeNameInput.value.trim();
+    const appearanceFrequency = parseInt(appearanceFrequencyInput.value.trim(), 10);
+    const email = emailInput.value.trim();
+    const background = backgroundInput.value.trim();
+
+    // Check if any of the fields are empty
+    if (!collegeName || isNaN(appearanceFrequency) || !email || !background) {
+        return false;
+    }
+
+    return true;
+}
+function generateRandomString() {
+  const characters = 'abcdefghijklmnopqrstuvwxyz';
+  let randomString = '';
+  for (let i = 0; i < 5; i++) {
+    randomString += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return randomString;
+}
+
 let formButton = document.getElementById("myForm") as HTMLFormElement;
 formButton.addEventListener("submit", (e: Event) => {
     e.preventDefault();  
-    function generateRandomString() {
-        const characters = 'abcdefghijklmnopqrstuvwxyz';
-        let randomString = '';
-        for (let i = 0; i < 5; i++) {
-          randomString += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        return randomString;
-      }
+    if (!validateForm()) {
+      // Display an error message or prevent the form submission
+      alert("Please fill in all the fields.");
+      return;
+  }
+  
     const newTeam: Team = {
         id: generateRandomString(),
         collegeName: collegeNameInput.value,
         appearanceFrequency: parseInt(appearanceFrequencyInput.value),
         email: emailInput.value,
         background: backgroundInput.value,
+        teamMembers: [],
         // registrationFee: 0 
         // 0 is the initial value. It will get updated later, once the registerTeam method is called
         // where the registration fee will be calculated based on the college type.
@@ -75,9 +110,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const teamRepository = new TeamRepository();
     teamRepository.updateTeamList();
   });
-  
-
-
 const emailService = new EmailService();
 let emailForm = document.getElementById("emailForm") as HTMLFormElement;
 emailForm.addEventListener("submit", (e: Event) => {
@@ -90,6 +122,7 @@ emailForm.addEventListener("submit", (e: Event) => {
     emailForm.reset();
 });
 
+}
 
 
 // const emailService = new EmailService();
