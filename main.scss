@@ -1,0 +1,319 @@
+
+    $nav-color: #383535;
+    $primary-color: #ff0aa7;
+    $secondary-color: #eec5c5;
+    $accent-color:  #cf8e8e;
+    $background-color: #ffffff;
+    $text-color: #1E1E1E;
+    $link-color: white;
+    $link-hover-color: #9091e9;
+    $button-hover-color: rgb(63, 34, 65);
+
+body {
+    margin: 0;
+    font-family: Roboto;
+    background: linear-gradient(90deg, $secondary-color 0%, $background-color 100%);
+    overflow-x: hidden;
+}
+html {
+    scroll-behavior: smooth;
+}
+
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+li,
+a {
+    text-decoration: none !important;
+    color: $link-color;
+}
+
+nav {
+    padding: 2rem 0;
+    width: 100%;
+    display:block;
+    background-color: $nav-color;
+    text-align: center;
+
+    ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 1rem;
+
+
+    }
+
+    li {
+        text-wrap:nowrap;
+        font-size: 1.375rem;
+        color: $link-color;
+        padding: 0.938rem;
+        text-decoration: none !important;
+        transition: background-color 0.3s ease-in;
+
+        &:hover {
+            cursor: pointer;
+            background-color: $link-hover-color;
+        }
+    }
+}
+
+.wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin: 40px auto;
+    color: $primary-color;
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+    color: $primary-color;
+}
+
+.container {
+    width: 90%;
+    padding: 2rem;
+    margin: 0 auto;
+    background: $secondary-color;
+
+    a {
+        text-align: center;
+        display: block;
+        color: $text-color;
+        margin-top: 40px;
+        font-size: 0.7em;
+    }
+}
+
+form {
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+label {
+    display: block;
+    font-weight: 200;
+    font-size: 1.3rem;
+    color: $text-color;
+    margin: 16px 0 6px;
+}
+
+input,
+select {
+    padding: 6px;
+    border: none;
+    border-radius: 4px;
+}
+
+li {
+    color: white;
+}
+
+.line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 3rem;
+}
+
+#delbutton {
+    margin-left: 8rem;
+}
+
+#delbutton:hover {
+    background: $button-hover-color;
+}
+.form-hidden {
+    display: none;
+}
+
+.field {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+button {
+    color: white;
+    border: 0;
+    background: $primary-color;
+    padding: 0.6rem 1rem;
+    min-width: 80px;
+    border-radius:14px;
+    font-weight: 700;
+    font-size: 1rem;
+
+    &:hover {
+            box-shadow:inset;
+            background: $button-hover-color;
+            cursor: pointer;
+            transform: translateY(-0.5rem);
+      
+    }
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+
+
+
+
+.belowContainer {
+    width: 100%;
+    margin: 0 auto;
+    height: 30vh;
+    background: $secondary-color;
+}
+
+.marginHere {
+    margin-bottom: 2rem;
+}
+@keyframes color-rotate {
+    from {
+        filter: hue-rotate(0deg);
+    }
+
+    to {
+        filter: hue-rotate(380deg);
+    }
+}
+
+.polygon {
+    background: $accent-color;
+   
+    border-radius: 20px;
+
+    &:hover {
+        animation-name: color-rotate;
+        /* Add this line */
+        animation-duration: 5s;
+    }
+}
+.team-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  align-items: center;
+    color: $text-color;
+    font-weight: 700;
+    font-size: 1.5rem;
+
+    p {
+   width: 100%;
+    }
+}
+.showList {
+    list-style-type: none;
+   
+    li {
+        border: none;
+        font-weight: 800;
+        color: white;
+        /* color: $text-color; */
+    }
+
+
+}
+
+
+/* Your existing CSS styles here */
+
+#scrollToTop {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;   
+    width: 50px;
+    height: 50px;
+    background-color: $nav-color;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    border-radius: 50%;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 11;
+
+    .fa-solid {
+        font-size: 24px;
+        /* Adjust the font size as needed */
+        color: white;
+        /* Set the icon color */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .show {
+        display: block;
+    }
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+
+
+.deleteButton {
+    margin-left: 2rem;
+}
+
+
+
+@media screen and (min-width: 1150px) {
+    .container {
+        clip-path: polygon(50% 0%, 100% 0, 100% 65%, 50% 100%, 0 65%, 0 0);
+        height: 20vh;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+}
+.team-details-wrapper {
+    max-width: 1100px;
+    margin : 0 auto;
+    display: flex;
+justify-content: space-between;
+align-items: center;
+p {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+}
+@media screen and (min-width: 750px) {
+    .team-details {
+            flex-direction: row; }
+    nav {
+        padding:0;
+        ul {
+          margin-left: 60vw;
+            flex-direction: row;
+            justify-content: center;
+
+        }
+
+    }
+
+    .belowContainer {
+        width: 90%;
+        margin: 5rem;
+        clip-path: polygon(50% 0%, 100% 0, 100% 65%, 50% 100%, 0 65%, 0 0);
+        height: 20vh;
+    }
+
+    .showList {
+        list-style-type: none;
+        margin: 3rem 3rem;
+    }
+}
