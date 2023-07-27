@@ -1,0 +1,9 @@
+{
+
+  "scripts": {
+    "scss": "sass main.scss public/styles.css -w"
+ },
+  "devDependencies": {
+    "sass": "^1.64.1"
+  }
+}

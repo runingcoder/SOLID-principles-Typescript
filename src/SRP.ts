@@ -53,7 +53,22 @@ export interface Team {
     background: string;
     registrationFee?: string;
 }
-export class TeamRepository {
+// Separate interfaces for team registration and email functionality
+
+export interface TeamRegistration {
+    calculateFeeFunction(team: Team) : void;
+    registerTeam(team: Team): void;
+    updateTeamList(): void;
+    deleteMember(id: string): void;
+    deleteAllTeamMembers(): void;
+  }
+  
+export interface EmailFunctionality {
+    sendEmail(email: Email): void;
+  }
+ 
+  
+export class TeamRepository implements TeamRegistration {
     private teams: Team[];
     private registrationFeeCalculators: Record<string, () => RegistrationFeeCalculator>;
     constructor() {
@@ -123,7 +138,7 @@ export class TeamRepository {
 
 
 }
-export class EmailService {
+export class EmailService implements EmailFunctionality {
     private emails: Email[];
     constructor() {
         this.emails = LocalStorageService.getItem<Email[]>("emailList") || [];
