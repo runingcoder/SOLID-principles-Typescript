@@ -1,16 +1,22 @@
 import { TeamRepository, EmailService, Email, Team } from "./SRP.js";
+// import from .js file even though we are working with ts files. Remember this.
 
 const currentPageId = document.body.id;
-
-
-if (currentPageId === "addTeamPage") {
-  document.addEventListener("DOMContentLoaded", function() {
-    const teamRepository = new TeamRepository();
-    teamRepository.displayTeamListWithMembersButton();
-  });
+document.addEventListener("DOMContentLoaded", function () {
   
-}
-else {
+  // Get all the navigation links
+  const navLinks = document.querySelectorAll(".nav-link");
+
+  // Loop through each navigation link and check if it matches the current page ID
+  navLinks.forEach((link) => {
+    const pageId = link.getAttribute("data-page");
+    if (pageId === currentPageId) {
+      link.classList.add("active");
+    }
+  });
+});
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const scrollToTopBtn: HTMLElement | null = document.getElementById("scrollToTop");
@@ -34,9 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-    
-
-// import from .js file even though we are working with ts files. Remember this.
 let content = document.getElementById("content") as HTMLInputElement;
 let sendEmail = document.getElementById("email2") as HTMLInputElement;
 let delButton = document.getElementById("delbutton") as HTMLInputElement;
@@ -44,19 +47,42 @@ const collegeNameInput = document.getElementById("collegeName") as HTMLInputElem
 const appearanceFrequencyInput = document.getElementById("participation") as HTMLInputElement;
 const emailInput = document.getElementById("email") as HTMLInputElement;
 const backgroundInput = document.getElementById("collegeType") as HTMLInputElement;
+if (currentPageId === "edit") {
+  document.addEventListener("DOMContentLoaded", function() {
+    const teamRepository = new TeamRepository();
+    teamRepository.displayTeamListWithMembersButton();
+  });
+  
+}
+if (currentPageId === "rankings") {
+  document.addEventListener("DOMContentLoaded", function() {
+    const teamRepository = new TeamRepository();
+    teamRepository.displayPlayersRewards();
+  });
+ 
+}
+
+if(currentPageId === "players") {
 
 
 
+
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const teamRepository = new TeamRepository();
+    console.log("playersPage");    
+    teamRepository.displayPlayersListWithRedeemButton();
+  });
+
+}
+
+if (currentPageId !== "edit" && currentPageId !== "rankings" && currentPageId !== "players") {
+ 
   delButton.addEventListener("click", function () {
     const teamRepository = new TeamRepository();
     console.log("delete button clicked");
     teamRepository.deleteAllTeamMembers();
   });
-
-
-
-
-
   function validateForm() {
     const collegeName = collegeNameInput.value.trim();
     const appearanceFrequency = parseInt(appearanceFrequencyInput.value.trim(), 10);
@@ -95,12 +121,7 @@ formButton.addEventListener("submit", (e: Event) => {
         email: emailInput.value,
         background: backgroundInput.value,
         teamMembers: [],
-        // registrationFee: 0 
-        // 0 is the initial value. It will get updated later, once the registerTeam method is called
-        // where the registration fee will be calculated based on the college type.
-    };
-    
-
+          };   
     const teamRepository = new TeamRepository();
     teamRepository.registerTeam(newTeam);
     formButton.reset();
@@ -118,6 +139,14 @@ emailForm.addEventListener("submit", (e: Event) => {
         content: content.value,
         email: sendEmail.value
     }
+    const contentInfo = content.value.trim();
+    const email = sendEmail.value.trim();
+    if (!contentInfo || !email) {
+      // Display an error message or prevent the form submission
+      alert("Please fill in all the fields.");
+      emailForm.reset();
+      return;
+  }
     emailService.sendEmail(newEmail);
     emailForm.reset();
 });

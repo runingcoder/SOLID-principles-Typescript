@@ -19,9 +19,10 @@
 // so this was the implementation of SRP principle.
 
 // Good example: Abiding by SRP::
-import {RegistrationFeeCalculator, PrivateCollegeRegistrationFeeCalculator, GovCollegeRegistrationFeeCalculator, InternationalCollegeRegistrationFeeCalculator} from './OCP.js';
+import {RegistrationFeeCalculator, PrivateCollegeRegistrationFeeCalculator, 
+    GovCollegeRegistrationFeeCalculator, InternationalCollegeRegistrationFeeCalculator} from './OCP.js';
 
-
+import  {RewardProvider, MonetaryRewardProvider, GiftCardRewardProvider} from './LSP.js';
 export interface Email {
     content: string;
     email: string;
@@ -37,13 +38,21 @@ export interface Team {
     teamMembers: TeamMember[];
 }
 interface TeamMember {
+    id: string;
     name: string;
     role: string;
     totalPoints: number;
+    redeemStatus: boolean;
+    monetaryRewards?: number;
+    giftRewards?: number;
 }
 
 
+
 export interface TeamManagementInterface {
+    redeemReward(id : string): void;
+    generateRandomString(): string;
+    displayPlayersListWithRedeemButton(): void;
     addTeamMember(teamId : string, teamMember : TeamMember): void;
     validateForm(memberNameValue : string, pointsValue : number, roleValue : string): boolean;
     displayAddTeamMemberForm(teamId : string): void;
@@ -116,7 +125,7 @@ export class TeamOperation implements TeamOperationInterface {
           <div class="team-details">
             <p>${
                 team.collegeName
-            } has been added to the Localstorage database.</p>
+            } has been added to the browser database.</p>
             <button class="deleteButton ${
                 team.id
             }">Delete</button>
@@ -148,15 +157,42 @@ export class TeamOperation implements TeamOperationInterface {
 }
 export class TeamManagement implements TeamManagementInterface {
     private teams : Team[];
+    private monetaryRewardProvider: RewardProvider;
+    private giftCardRewardProvider: RewardProvider;
     constructor() {
+        this.monetaryRewardProvider = new MonetaryRewardProvider();
+        this.giftCardRewardProvider = new GiftCardRewardProvider();
         this.teams = LocalStorageService.getItem<Team[]>("teamList") || [];
     }
+    
     validateForm(memberNameValue : string, pointsValue : number, roleValue : string): boolean {
         if (!memberNameValue || isNaN(pointsValue) || !roleValue) {
             return false;
         }
         return true;
     }
+    addTeamMember(teamId : string, teamMember : TeamMember): void {
+        const team = this.teams.find((team) => team.id === teamId);
+
+        if (team) {
+            if (! team.teamMembers) {
+                team.teamMembers = [];
+            }
+            team.teamMembers.push(teamMember);
+            LocalStorageService.setItem('teamList', this.teams);
+            alert("team member added!");
+        } else {
+            console.log(`Team with ID ${teamId} not found.`);
+        }
+    }
+    generateRandomString() {
+        const characters = 'abcdefghijklmnopqrstuvwxyz';
+        let randomString = '';
+        for (let i = 0; i < 5; i++) {
+          randomString += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return randomString;
+      }
     displayAddTeamMemberForm(teamId : string): void {
         const teamListContainer = document.querySelector(".showTeamList")as HTMLDivElement;
         const teamMemberForm = document.querySelector(`.team-form-${teamId}`)as HTMLFormElement;
@@ -193,33 +229,24 @@ export class TeamManagement implements TeamManagementInterface {
             }
 
             const newTeamMember: TeamMember = {
+                id: this.generateRandomString(),
                 name: memberName.value,
                 totalPoints: parseInt(points.value),
-                role: role.value
+                role: role.value,
+                redeemStatus: false,
             };
             teamMemberForm.reset();
             teamMemberForm.classList.add("form-hidden");
             this.addTeamMember(teamId, newTeamMember);
 
         });
-    }
-    addTeamMember(teamId : string, teamMember : TeamMember): void {
-        const team = this.teams.find((team) => team.id === teamId);
-
-        if (team) {
-            if (! team.teamMembers) {
-                team.teamMembers = [];
-            }
-            team.teamMembers.push(teamMember);
-            LocalStorageService.setItem('teamList', this.teams);
-            alert("team member added!");
-        } else {
-            console.log(`Team with ID ${teamId} not found.`);
-        }
-    }
+    }   
     displayTeamListWithMembersButton(): void {
         const teamListContainer = document.querySelector(".showTeamList")as HTMLDivElement;
         teamListContainer.innerHTML = ""
+        if(this.teams.length === 0) {
+            teamListContainer.innerHTML = ` <div class="centerMsg">No teams registered yet!</div>
+            `; }
         this.teams.forEach((team) => {
 
             const teamElement = document.createElement("div");
@@ -260,6 +287,130 @@ export class TeamManagement implements TeamManagementInterface {
         });
 
     }
+    redeemReward(id: string): void {
+        // Find the team member with the given id in the teams array
+        for (const team of this.teams) {
+            const teamMember = team.teamMembers.find((member) => member.id === id);
+            if(teamMember?.redeemStatus === true) {
+                alert("Reward already redeemed!"); }
+            if (teamMember) {
+                console.log("team member found")
+                // Set the redeemStatus to true
+                teamMember.redeemStatus = true;
+                console.log(teamMember.redeemStatus);
+                
+                // Calculate the reward for monetaryReward
+                const monetaryReward = this.monetaryRewardProvider.provideReward(teamMember.totalPoints);
+                teamMember.monetaryRewards = monetaryReward;
+                console.log(monetaryReward);
+                
+                // Calculate the reward for giftCardReward
+                const giftCardReward = this.giftCardRewardProvider.provideReward(teamMember.totalPoints);
+                teamMember.giftRewards = giftCardReward;
+
+               
+                // Exit the loop after finding the team member
+                break;
+            }
+        }
+        LocalStorageService.setItem('teamList', this.teams);
+
+    }
+    
+    displayPlayersListWithRedeemButton(): void {
+        const playersListContainer = document.querySelector(".showPlayersList") as HTMLDivElement;
+        playersListContainer.innerHTML = "";
+      
+        if (this.teams.length === 0) {
+          playersListContainer.innerHTML = `<div class="centerMsg">No teams registered yet!</div>`;
+        }
+      
+        // Loop through each team and its team members
+        this.teams.forEach((team) => {
+          const teamElement = document.createElement("div");
+          teamElement.classList.add("team");
+      
+          // Display team name at the top
+          const teamNameElement = document.createElement("h2");
+          teamNameElement.textContent = team.collegeName;
+          teamElement.appendChild(teamNameElement);
+      
+          // Display team members and their redeem buttons
+          team.teamMembers.forEach((teamMember) => {
+            const playerElement = document.createElement("div");
+            playerElement.classList.add("player");
+            playerElement.innerHTML = `
+              <div class="team-details-wrapper">
+                <p>${teamMember.name}</p>
+                <button class="redeemButton redeemButton-${teamMember.id}">${teamMember.redeemStatus ? "Reward Redeemed" : "Redeem Reward"}</button>
+              </div>
+            `;
+      
+            const redeemButton = playerElement.querySelector(`.redeemButton-${teamMember.id}`) as HTMLButtonElement;
+      
+            if (teamMember.redeemStatus) {
+              // If redeemStatus is true, change the button content to "Reward Redeemed" and apply the reward-redeemed-button class
+              redeemButton.textContent = "Reward Redeemed";
+              redeemButton.classList.add("reward-redeemed-button");
+            } else {
+              // If redeemStatus is false, keep the normal button content and apply the reward-button class
+              redeemButton.classList.add("reward-button");
+              redeemButton.onclick = (e: Event) => {
+                e.preventDefault();
+                this.redeemReward(teamMember.id);
+                teamMember.redeemStatus = true;
+                redeemButton.textContent = "Reward Redeemed";
+                redeemButton.classList.add("reward-redeemed-button");
+              };
+            }
+      
+            teamElement.appendChild(playerElement);
+          });
+      
+          playersListContainer.appendChild(teamElement);
+        });
+      }
+    displayPlayersRewards(): void {
+        const playersRewardsContainer = document.querySelector(".showPlayersRewards") as HTMLDivElement;
+        playersRewardsContainer.innerHTML = "";
+      
+        // Flatten the team members array
+        const allTeamMembers = this.teams.flatMap((team) => team.teamMembers);
+      
+        // Sort the team members by total points in descending order
+        const sortedTeamMembers = allTeamMembers.sort((a, b) => b.totalPoints - a.totalPoints);
+      
+        // Create the table element
+        const table = document.createElement("table");
+        table.classList.add("players-rewards-table");
+      
+        // Create the table header row
+        const tableHeaderRow = document.createElement("tr");
+        tableHeaderRow.innerHTML = `
+          <th>Player</th>
+          <th>Monetary Rewards</th>
+          <th>Gift Rewards</th>
+          <th>Total Points</th>
+        `;
+        table.appendChild(tableHeaderRow);
+      
+        // Loop through each team member and create a row for each
+        sortedTeamMembers.forEach((teamMember) => {
+          const tableRow = document.createElement("tr");
+          tableRow.innerHTML = `
+            <td>${teamMember.name}</td>
+            <td>${teamMember.redeemStatus ? teamMember.monetaryRewards : "Not redeemed yet"}</td>
+            <td>${teamMember.redeemStatus ? teamMember.giftRewards : "Not redeemed yet"}</td>
+            <td>${teamMember.totalPoints}</td>
+          `;
+          table.appendChild(tableRow);
+        });
+      
+        playersRewardsContainer.appendChild(table);
+      }
+      
+      
+    
 
 }
 
@@ -272,6 +423,10 @@ export class TeamRepository {
         this.teamOperation = new TeamOperation();
         this.teamManagement = new TeamManagement();
 
+    }
+
+    generateRandomString() {
+        return this.teamManagement.generateRandomString();
     }
     calculateFeeFunction(team : Team) {
         this.teamOperation.calculateFeeFunction(team);
@@ -310,8 +465,18 @@ export class TeamRepository {
 
     displayTeamListWithMembersButton() {
         this.teamManagement.displayTeamListWithMembersButton();
-
-
+    }
+    displayPlayersListWithRedeemButton () {
+        this.teamManagement.displayPlayersListWithRedeemButton();
+    }   
+    rewardRedeemed(id : string) {
+        this.teamManagement.redeemReward(id);
+    } 
+    displayPlayersReward () {
+        this.teamManagement.displayPlayersListWithRedeemButton();
+    }
+    displayPlayersRewards () {
+        this.teamManagement.displayPlayersRewards();
     }
 }
 export class EmailService implements EmailFunctionality {

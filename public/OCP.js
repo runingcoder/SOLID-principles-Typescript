@@ -1,10 +1,12 @@
 // bad Example:
 //  
 // function calculateRegistrationFee(collegeType: string, appearanceFrequency: number): number {
-//   let baseFee = 100; // Base fee for governmental and international colleges
+//   let baseFee = 100; 
 //   if (collegeType === "private") {
-//     baseFee = 150; // Higher base fee for private colleges
+//     baseFee = 150; 
 //   }
+//   const discountPercentage = 0.1; 
+//   const discountedFee = baseFee - (baseFee * discountPercentage * appearanceFrequency);
 export class PrivateCollegeRegistrationFeeCalculator {
     calculateFee(appearanceFrequency) {
         const baseFee = 35000;
