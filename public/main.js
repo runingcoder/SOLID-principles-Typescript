@@ -1,40 +1,64 @@
 import { TeamRepository, EmailService } from "./SRP.js";
+// import from .js file even though we are working with ts files. Remember this.
 const currentPageId = document.body.id;
-if (currentPageId === "addTeamPage") {
+document.addEventListener("DOMContentLoaded", function () {
+    // Get all the navigation links
+    const navLinks = document.querySelectorAll(".nav-link");
+    // Loop through each navigation link and check if it matches the current page ID
+    navLinks.forEach((link) => {
+        const pageId = link.getAttribute("data-page");
+        if (pageId === currentPageId) {
+            link.classList.add("active");
+        }
+    });
+});
+document.addEventListener("DOMContentLoaded", () => {
+    const scrollToTopBtn = document.getElementById("scrollToTop");
+    if (scrollToTopBtn) {
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add("show");
+            }
+            else {
+                scrollToTopBtn.classList.remove("show");
+            }
+        });
+        scrollToTopBtn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+        // Add touch event listener for mobile devices
+        scrollToTopBtn.addEventListener("touchstart", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    }
+});
+let content = document.getElementById("content");
+let sendEmail = document.getElementById("email2");
+let delButton = document.getElementById("delbutton");
+const collegeNameInput = document.getElementById("collegeName");
+const appearanceFrequencyInput = document.getElementById("participation");
+const emailInput = document.getElementById("email");
+const backgroundInput = document.getElementById("collegeType");
+if (currentPageId === "edit") {
     document.addEventListener("DOMContentLoaded", function () {
         const teamRepository = new TeamRepository();
         teamRepository.displayTeamListWithMembersButton();
     });
 }
-else {
-    document.addEventListener("DOMContentLoaded", () => {
-        const scrollToTopBtn = document.getElementById("scrollToTop");
-        if (scrollToTopBtn) {
-            window.addEventListener("scroll", () => {
-                if (window.scrollY > 300) {
-                    scrollToTopBtn.classList.add("show");
-                }
-                else {
-                    scrollToTopBtn.classList.remove("show");
-                }
-            });
-            scrollToTopBtn.addEventListener("click", () => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-            });
-            // Add touch event listener for mobile devices
-            scrollToTopBtn.addEventListener("touchstart", () => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-            });
-        }
+if (currentPageId === "rankings") {
+    document.addEventListener("DOMContentLoaded", function () {
+        const teamRepository = new TeamRepository();
+        teamRepository.displayPlayersRewards();
     });
-    // import from .js file even though we are working with ts files. Remember this.
-    let content = document.getElementById("content");
-    let sendEmail = document.getElementById("email2");
-    let delButton = document.getElementById("delbutton");
-    const collegeNameInput = document.getElementById("collegeName");
-    const appearanceFrequencyInput = document.getElementById("participation");
-    const emailInput = document.getElementById("email");
-    const backgroundInput = document.getElementById("collegeType");
+}
+if (currentPageId === "players") {
+    document.addEventListener("DOMContentLoaded", function () {
+        const teamRepository = new TeamRepository();
+        console.log("playersPage");
+        teamRepository.displayPlayersListWithRedeemButton();
+    });
+}
+if (currentPageId !== "edit" && currentPageId !== "rankings" && currentPageId !== "players") {
     delButton.addEventListener("click", function () {
         const teamRepository = new TeamRepository();
         console.log("delete button clicked");
@@ -74,9 +98,6 @@ else {
             email: emailInput.value,
             background: backgroundInput.value,
             teamMembers: [],
-            // registrationFee: 0 
-            // 0 is the initial value. It will get updated later, once the registerTeam method is called
-            // where the registration fee will be calculated based on the college type.
         };
         const teamRepository = new TeamRepository();
         teamRepository.registerTeam(newTeam);
@@ -94,6 +115,14 @@ else {
             content: content.value,
             email: sendEmail.value
         };
+        const contentInfo = content.value.trim();
+        const email = sendEmail.value.trim();
+        if (!contentInfo || !email) {
+            // Display an error message or prevent the form submission
+            alert("Please fill in all the fields.");
+            emailForm.reset();
+            return;
+        }
         emailService.sendEmail(newEmail);
         emailForm.reset();
     });

@@ -2,17 +2,21 @@
 // implementation coming soon
 // IN the Srp file, I have used, 
 // export interface TeamManagementInterface {
-//     addTeamMember(teamId: string, teamMember: TeamMember): void;
-//    validateForm(memberNameValue: string, pointsValue: number, roleValue: string): boolean;
-//        displayAddTeamMemberForm(teamId: string): void;
-//        displayTeamListWithMembersButton(): void;
-//    } 
-// export interface TeamOperationInterface {   
-//     calculateFeeFunction(team: Team): void;   
-//     registerTeam(team: Team): void;
+//     redeemReward(id : string): void;
+//     generateRandomString(): string;
+//     displayPlayersListWithRedeemButton(): void;
+//     addTeamMember(teamId : string, teamMember : TeamMember): void;
+//     validateForm(memberNameValue : string, pointsValue : number, roleValue : string): boolean;
+//     displayAddTeamMemberForm(teamId : string): void;
+//     displayTeamListWithMembersButton(): void;
+// }
+// export interface TeamOperationInterface {
+//     calculateFeeFunction(team : Team): void;
+//     registerTeam(team : Team): void;
 //     updateTeamList(): void;
-//     deleteMember(id: string): void;
+//     deleteMember(id : string): void;
 //     deleteAllTeamMembers(): void;
+// }
 // }
 // export interface EmailFunctionality {
 //     sendEmail(email: Email): void;

@@ -1,34 +1,31 @@
 // bad Example:
 //  
 // function calculateRegistrationFee(collegeType: string, appearanceFrequency: number): number {
-//   let baseFee = 100; // Base fee for governmental and international colleges
+//   let baseFee = 100; 
 //   if (collegeType === "private") {
-//     baseFee = 150; // Higher base fee for private colleges
+//     baseFee = 150; 
 //   }
-
-//   // Apply a discount based on the appearance frequency
-//   const discountPercentage = 0.1; // 10% discount for each appearance
+//   const discountPercentage = 0.1; 
 //   const discountedFee = baseFee - (baseFee * discountPercentage * appearanceFrequency);
 
-//   return Math.max(discountedFee, 0); // Ensure the fee is not negative
-// }
+//   return Math.max(discountedFee, 0); // }
 
-// and just invoking this function like;
+  // and just invoking this function like;
 //  const newTeam: Team = {
 //   collegeName: "ABC College",
 //   appearanceFrequency: 5,
 //   email: "team@example.com",
 //   background: "private",
-//   registrationFee: calculateRegistrationFee("private", 5) --- here!!
+//   registrationFee: calculateRegistrationFee("private", 5) ------ here!!
 // };
 
 // // Register the new team and store the registration fee
 // teamRepository.registerTeam(newTeam);
 
-//  But if in future, if you have new categories of types of college, then you will have to change the 
-// code in this function. So rather than that, make class for each type and make own functions, so that
-// it is extendable and not modifiable which abides by the rule of Open Close Principle in SOLID.
-
+//BUT IF IN THE FUTURE, IF YOU HAVE NEW CATEGORIES OF TYPES OF COLLEGES, 
+// THEN YOU WILL HAVE TO CHANGE THE CODE IN THIS FUNCTION. SO RATHER THAN THAT, 
+// MAKE A CLASS FOR EACH TYPE AND CREATE OWN FUNCTIONS, SO THAT IT IS EXTENDABLE AND NOT MODIFIABLE,
+// WHICH ABIDES BY THE RULE OF OPEN-CLOSED PRINCIPLE IN SOLID. //
 
 
 export interface RegistrationFeeCalculator {

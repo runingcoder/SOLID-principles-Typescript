@@ -15,9 +15,14 @@ body {
     background: linear-gradient(90deg, $secondary-color 0%, $background-color 100%);
     overflow-x: hidden;
 }
+
 html {
     scroll-behavior: smooth;
 }
+.active {
+    font-weight: bold; 
+    text-decoration: underline;
+ }
 
 
 ul {
@@ -52,7 +57,6 @@ nav {
     li {
         text-wrap:nowrap;
         font-size: 1.375rem;
-        color: $link-color;
         padding: 0.938rem;
         text-decoration: none !important;
         transition: background-color 0.3s ease-in;
@@ -63,7 +67,29 @@ nav {
         }
     }
 }
+/* Add this to your CSS file or <style> section */
+.reward-button {
+  background-color: blue;
+  color: white;
+}
 
+.reward-redeemed-button {
+  background-color: black;
+  color: white;
+}
+
+.centerMsg {   
+    margin-top: 5rem;
+    text-align: center;
+    font-size: 3rem;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  
+    &:hover {
+      transform: translateY(2rem) rotate(-25deg);
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    }
+  }
+  
 .wrapper {
     max-width: 960px;
     margin: 0 auto;
@@ -190,7 +216,7 @@ button {
 }
 
 .polygon {
-    background: $accent-color;
+      background: $accent-color;
    
     border-radius: 20px;
 
@@ -281,8 +307,8 @@ button {
 
 }
 .team-details-wrapper {
+    margin: 0 4rem ;
     max-width: 1100px;
-    margin : 0 auto;
     display: flex;
 justify-content: space-between;
 align-items: center;
@@ -291,13 +317,69 @@ p {
     font-size: 1.5rem;
 }
 }
+/* Add your regular navigation styles here */
+
+/* Style for the active navigation link */
+
+  
+// Center the table
+.players-rewards-table {
+    width: 90%;
+    margin: 0 auto 5rem;
+  
+    // Style the table header
+    th {
+      background-color: #621369; // Blue color for header background
+      color: white;
+      padding: 10px;
+    }
+  
+    // Style the table rows
+    tr:nth-child(even) {
+      background-color: #f2f2f2; // Light gray color for even rows
+    }
+  
+    tr:nth-child(odd) {
+      background-color: #ffffff; // White color for odd rows
+    }   
+  
+    // Style the table data cells
+    td {
+        color: purple;
+        font-weight: 700;
+        text-align: center;
+      padding: 10px;
+    }
+  
+    // Style the Monetary Rewards column
+    .monetary-rewards {
+      color: #28a745; // Green color for Monetary Rewards column
+    }
+  
+    // Style the Gift Rewards column
+    .gift-rewards {
+      color: #dc3545; // Red color for Gift Rewards column
+    }
+  
+    // Style the Total Points column
+    .total-points {
+      color: #ffc107; // Yellow color for Total Points column
+    }
+  }
+  
 @media screen and (min-width: 750px) {
+    // Center the table
+.players-rewards-table {
+    width: 80%; 
+    margin: 0 auto 5rem;    
+
+}
     .team-details {
             flex-direction: row; }
     nav {
         padding:0;
         ul {
-          margin-left: 60vw;
+          margin-left: 30vw;
             flex-direction: row;
             justify-content: center;
 
