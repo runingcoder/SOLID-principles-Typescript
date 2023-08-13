@@ -1,0 +1,345 @@
+body {
+  margin: 0;
+  font-family: Roboto;
+  background: linear-gradient(90deg, #eec5c5 0%, #ffffff 100%);
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+li,
+a {
+  text-decoration: none !important;
+  color: white;
+}
+
+nav {
+  padding: 2rem 0;
+  width: 100%;
+  display: block;
+  background-color: #383535;
+  text-align: center;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 1rem;
+}
+nav li {
+  text-wrap: nowrap;
+  font-size: 1.375rem;
+  padding: 0.938rem;
+  text-decoration: none !important;
+  transition: background-color 0.3s ease-in;
+}
+nav li:hover {
+  cursor: pointer;
+  background-color: #9091e9;
+}
+
+/* Add this to your CSS file or <style> section */
+.reward-button {
+  background-color: blue;
+  color: white;
+}
+
+.reward-redeemed-button {
+  background-color: black;
+  color: white;
+}
+
+.centerMsg {
+  margin-top: 5rem;
+  text-align: center;
+  font-size: 3rem;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.centerMsg:hover {
+  transform: translateY(2rem) rotate(-25deg);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin: 40px auto;
+  color: #ff0aa7;
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+  color: #ff0aa7;
+}
+
+.container {
+  width: 90%;
+  padding: 2rem;
+  margin: 0 auto;
+  background: #eec5c5;
+}
+.container a {
+  text-align: center;
+  display: block;
+  color: #1E1E1E;
+  margin-top: 40px;
+  font-size: 0.7em;
+}
+
+form {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+label {
+  display: block;
+  font-weight: 200;
+  font-size: 1.3rem;
+  color: #1E1E1E;
+  margin: 16px 0 6px;
+}
+
+input,
+select {
+  padding: 6px;
+  border: none;
+  border-radius: 4px;
+}
+
+li {
+  color: white;
+}
+
+.line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 3rem;
+}
+
+#delbutton {
+  margin-left: 8rem;
+}
+
+#delbutton:hover {
+  background: rgb(63, 34, 65);
+}
+
+.form-hidden {
+  display: none;
+}
+
+.field {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+button {
+  color: white;
+  border: 0;
+  background: #ff0aa7;
+  padding: 0.6rem 1rem;
+  min-width: 80px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 1rem;
+}
+button:hover {
+  box-shadow: inset;
+  background: rgb(63, 34, 65);
+  cursor: pointer;
+  transform: translateY(-0.5rem);
+}
+button:active {
+  transform: translateY(0);
+}
+
+.belowContainer {
+  width: 100%;
+  margin: 0 auto;
+  height: 30vh;
+  background: #eec5c5;
+}
+
+.marginHere {
+  margin-bottom: 2rem;
+}
+
+@keyframes color-rotate {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(380deg);
+  }
+}
+.polygon {
+  background: #cf8e8e;
+  border-radius: 20px;
+}
+.polygon:hover {
+  animation-name: color-rotate;
+  /* Add this line */
+  animation-duration: 5s;
+}
+
+.team-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  color: #1E1E1E;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+.team-details p {
+  width: 100%;
+}
+
+.showList {
+  list-style-type: none;
+}
+.showList li {
+  border: none;
+  font-weight: 800;
+  color: white;
+  /* color: $text-color; */
+}
+
+/* Your existing CSS styles here */
+#scrollToTop {
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  width: 50px;
+  height: 50px;
+  background-color: #383535;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 11;
+}
+#scrollToTop .fa-solid {
+  font-size: 24px;
+  /* Adjust the font size as needed */
+  color: white;
+  /* Set the icon color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+#scrollToTop .show {
+  display: block;
+}
+#scrollToTop:hover {
+  opacity: 0.8;
+}
+
+.deleteButton {
+  margin-left: 2rem;
+}
+
+@media screen and (min-width: 1150px) {
+  .container {
+    clip-path: polygon(50% 0%, 100% 0, 100% 65%, 50% 100%, 0 65%, 0 0);
+    height: 20vh;
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+.team-details-wrapper {
+  margin: 0 4rem;
+  max-width: 1100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.team-details-wrapper p {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* Add your regular navigation styles here */
+/* Style for the active navigation link */
+.players-rewards-table {
+  width: 90%;
+  margin: 0 auto 5rem;
+}
+.players-rewards-table th {
+  background-color: #621369;
+  color: white;
+  padding: 10px;
+}
+.players-rewards-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.players-rewards-table tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+.players-rewards-table td {
+  color: purple;
+  font-weight: 700;
+  text-align: center;
+  padding: 10px;
+}
+.players-rewards-table .monetary-rewards {
+  color: #28a745;
+}
+.players-rewards-table .gift-rewards {
+  color: #dc3545;
+}
+.players-rewards-table .total-points {
+  color: #ffc107;
+}
+
+@media screen and (min-width: 750px) {
+  .players-rewards-table {
+    width: 80%;
+    margin: 0 auto 5rem;
+  }
+  .team-details {
+    flex-direction: row;
+  }
+  nav {
+    padding: 0;
+  }
+  nav ul {
+    margin-left: 30vw;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .belowContainer {
+    width: 90%;
+    margin: 5rem;
+    clip-path: polygon(50% 0%, 100% 0, 100% 65%, 50% 100%, 0 65%, 0 0);
+    height: 20vh;
+  }
+  .showList {
+    list-style-type: none;
+    margin: 3rem 3rem;
+  }
+}
+
+/*# sourceMappingURL=styles.css.map */

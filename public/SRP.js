@@ -17,7 +17,7 @@
 // without worrying about breaking other parts of your codebase.
 // so this was the implementation of SRP principle.
 // Good example: Abiding by SRP::
-import { PrivateCollegeRegistrationFeeCalculator, GovCollegeRegistrationFeeCalculator, InternationalCollegeRegistrationFeeCalculator } from './OCP.js';
+import { MainFeeCalculator, SpecificFeeCalculatorFactory } from './OCP.js';
 import { MonetaryRewardProvider, GiftCardRewardProvider } from './LSP.js';
 // Separate interfaces for team , teamMember, team management, team operations and email functionality
 export class LocalStorageService {
@@ -33,25 +33,20 @@ export class LocalStorageService {
     }
 }
 export class TeamOperation {
-    constructor() {
+    // Good dependency injection practice  instead of calling the classes directly 
+    // inside the constructor function, we call it in the argument.
+    constructor(mainCalculatorFactory) {
         this.teams = LocalStorageService.getItem("teamList") || [];
-        this.registrationFeeCalculators = {
-            'Private': () => new PrivateCollegeRegistrationFeeCalculator(),
-            'Governmental': () => new GovCollegeRegistrationFeeCalculator(),
-            'International': () => new InternationalCollegeRegistrationFeeCalculator()
-        };
+        this.mainCalculatorFactory = mainCalculatorFactory;
     }
-    calculateFeeFunction(team) {
+    calculateAndSetRegistrationFee(team) {
         const background = team.background;
-        const calculatorConstructor = this.registrationFeeCalculators[background];
-        const calculator = calculatorConstructor();
-        team.registrationFee = calculator.calculateFee(team.appearanceFrequency);
-        if (!calculatorConstructor) {
-            throw new Error(`No registration fee calculator found for college type: ${background}`);
-        }
+        const appearanceFrequency = team.appearanceFrequency;
+        const calculator = this.mainCalculatorFactory.calculatetypeAndValue(background, appearanceFrequency);
+        team.registrationFee = calculator.calculateFee(appearanceFrequency);
     }
     registerTeam(team) {
-        this.calculateFeeFunction(team);
+        this.calculateAndSetRegistrationFee(team);
         this.teams.push(team);
         console.log('New Team List is:', this.teams);
         LocalStorageService.setItem('teamList', this.teams);
@@ -303,15 +298,17 @@ export class TeamManagement {
 }
 export class TeamRepository {
     constructor() {
+        const feeCalculatorFactory = new SpecificFeeCalculatorFactory();
+        this.mainCalculatorFactory = new MainFeeCalculator(feeCalculatorFactory);
         this.teams = LocalStorageService.getItem("teamList") || [];
-        this.teamOperation = new TeamOperation();
+        this.teamOperation = new TeamOperation(this.mainCalculatorFactory);
         this.teamManagement = new TeamManagement();
     }
     generateRandomString() {
         return this.teamManagement.generateRandomString();
     }
     calculateFeeFunction(team) {
-        this.teamOperation.calculateFeeFunction(team);
+        this.teamOperation.calculateAndSetRegistrationFee(team);
     }
     addTeamMember(teamId, teamMember) {
         this.teamManagement.addTeamMember(teamId, teamMember);
