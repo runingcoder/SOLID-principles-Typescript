@@ -19,7 +19,7 @@
 // so this was the implementation of SRP principle.
 
 // Good example: Abiding by SRP::
-import {MainFeeCalculator} from './OCP.js';
+import {MainFeeCalculator, SpecificFeeCalculatorFactory , FeeCalculatorFactory} from './OCP.js';
 
 import  {RewardProvider, MonetaryRewardProvider, GiftCardRewardProvider} from './LSP.js';
 export interface Email {
@@ -96,9 +96,9 @@ export class TeamOperation implements TeamOperationInterface {
     calculateAndSetRegistrationFee(team : Team) {
         const background = team.background;
     const appearanceFrequency = team.appearanceFrequency;
-    const mainCalculator = this.mainCalculatorFactory.createCalculator(background, appearanceFrequency);
-
-        team.registrationFee = mainCalculator.calculateFee(appearanceFrequency);       
+    const calculator = this.mainCalculatorFactory.calculatetypeAndValue(background, appearanceFrequency);
+    team.registrationFee = calculator.calculateFee(appearanceFrequency);
+        
     }
     registerTeam(team : Team): void {
         this.calculateAndSetRegistrationFee(team);
@@ -410,8 +410,11 @@ export class TeamRepository {
     private teamOperation : TeamOperation;
     private teamManagement : TeamManagement;
     private mainCalculatorFactory: MainFeeCalculator;
+    
+
     constructor() {
-        this.mainCalculatorFactory = new MainFeeCalculator();
+        const feeCalculatorFactory = new SpecificFeeCalculatorFactory();
+        this.mainCalculatorFactory = new MainFeeCalculator(feeCalculatorFactory);
         this.teams = LocalStorageService.getItem<Team[]>("teamList") || [];
         this.teamOperation = new TeamOperation(this.mainCalculatorFactory);
         this.teamManagement = new TeamManagement();

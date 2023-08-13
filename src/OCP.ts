@@ -2,17 +2,27 @@
   // Extensions in this case are the various fee calculator method logic for difference type of colleges
   // or background, and modification is as seen as the main class which is MainFeeCalculator class.
   // so, in this case, when there is a new type of college, we first make a class for that 
-  //  and call it(loose coupling) in the main class depending on the type and
-  // and so in this way, not much modification is seen in the main class.
-  // SO, this is a violation of OCP principle.
-  // the solution will be in the next commit.
-  
-  // and since we created and interface for the fee calculator, we can easily add more fee calculator 
-  // classes that implements the interface and call it in the main class.
+// in the main class, we have called a method that implements factory method pattern to return the
+// type of registration fee calculator based on the background of the college that returns the 
+// registration fee in the end.
 
-  export class MainFeeCalculator {   
-    constructor() {} 
-     createCalculator(background: string, appearanceFrequency: number): RegistrationFeeCalculator {
+
+  export class MainFeeCalculator {
+    private calculatorFactory: FeeCalculatorFactory;
+  
+    constructor(calculatorFactory: FeeCalculatorFactory) {
+      this.calculatorFactory = calculatorFactory;
+    }
+  
+    calculatetypeAndValue(background: string, appearanceFrequency: number): RegistrationFeeCalculator{
+      return this.calculatorFactory.createCalculator(background, appearanceFrequency);
+    }
+  }
+  export interface FeeCalculatorFactory {
+    createCalculator(background: string, appearanceFrequency: number): RegistrationFeeCalculator;
+  }
+  export class SpecificFeeCalculatorFactory implements FeeCalculatorFactory {
+    createCalculator(background: string, appearanceFrequency: number): RegistrationFeeCalculator {
       switch (background) {
         case 'Private':
           return new PrivateCollegeRegistrationFeeCalculator(appearanceFrequency);
@@ -20,12 +30,12 @@
           return new GovCollegeRegistrationFeeCalculator(appearanceFrequency);
         case 'International':
           return new InternationalCollegeRegistrationFeeCalculator(appearanceFrequency);
-        // Add more cases for additional fee calculator types
         default:
           throw new Error(`Unsupported background: ${background}`);
       }
     }
   }
+  
 
 export interface RegistrationFeeCalculator {
     calculateFee(appearanceFrequency: number): string;

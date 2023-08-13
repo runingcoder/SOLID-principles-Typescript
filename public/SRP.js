@@ -17,7 +17,7 @@
 // without worrying about breaking other parts of your codebase.
 // so this was the implementation of SRP principle.
 // Good example: Abiding by SRP::
-import { MainFeeCalculator } from './OCP.js';
+import { MainFeeCalculator, SpecificFeeCalculatorFactory } from './OCP.js';
 import { MonetaryRewardProvider, GiftCardRewardProvider } from './LSP.js';
 // Separate interfaces for team , teamMember, team management, team operations and email functionality
 export class LocalStorageService {
@@ -42,8 +42,8 @@ export class TeamOperation {
     calculateAndSetRegistrationFee(team) {
         const background = team.background;
         const appearanceFrequency = team.appearanceFrequency;
-        const mainCalculator = this.mainCalculatorFactory.createCalculator(background, appearanceFrequency);
-        team.registrationFee = mainCalculator.calculateFee(appearanceFrequency);
+        const calculator = this.mainCalculatorFactory.calculatetypeAndValue(background, appearanceFrequency);
+        team.registrationFee = calculator.calculateFee(appearanceFrequency);
     }
     registerTeam(team) {
         this.calculateAndSetRegistrationFee(team);
@@ -298,7 +298,8 @@ export class TeamManagement {
 }
 export class TeamRepository {
     constructor() {
-        this.mainCalculatorFactory = new MainFeeCalculator();
+        const feeCalculatorFactory = new SpecificFeeCalculatorFactory();
+        this.mainCalculatorFactory = new MainFeeCalculator(feeCalculatorFactory);
         this.teams = LocalStorageService.getItem("teamList") || [];
         this.teamOperation = new TeamOperation(this.mainCalculatorFactory);
         this.teamManagement = new TeamManagement();
