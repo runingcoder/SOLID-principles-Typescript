@@ -7,6 +7,10 @@
 // registration fee in the end.
 
 
+// And as for Dependency Inversion Principle, it says that high level modules should not depend on low level
+//  modules so, here, The MainFeeCalculator class depends on the FeeCalculatorFactory interface, not on 
+// concrete implementations. This inversion of control allows you to inject different factory implementations
+// without changing the behavior of the MainFeeCalculator class. 
   export class MainFeeCalculator {
     private calculatorFactory: FeeCalculatorFactory;
   

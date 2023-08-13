@@ -5,6 +5,10 @@
 // in the main class, we have called a method that implements factory method pattern to return the
 // type of registration fee calculator based on the background of the college that returns the 
 // registration fee in the end.
+// And as for Dependency Inversion Principle, it says that high level modules should not depend on low level
+//  modules so, here, The MainFeeCalculator class depends on the FeeCalculatorFactory interface, not on 
+// concrete implementations. This inversion of control allows you to inject different factory implementations
+// without changing the behavior of the MainFeeCalculator class. 
 export class MainFeeCalculator {
     constructor(calculatorFactory) {
         this.calculatorFactory = calculatorFactory;
