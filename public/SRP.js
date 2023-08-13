@@ -35,9 +35,13 @@ export class LocalStorageService {
 export class TeamOperation {
     // Good dependency injection practice  instead of calling the classes directly 
     // inside the constructor function, we call it in the argument.
+    // private x: y;
+    // constructor(x: y) {
+    //   this.x = x;
+    // shorthand for that is constructor(private x: y) 
     constructor(mainCalculatorFactory) {
-        this.teams = LocalStorageService.getItem("teamList") || [];
         this.mainCalculatorFactory = mainCalculatorFactory;
+        this.teams = LocalStorageService.getItem("teamList") || [];
     }
     calculateAndSetRegistrationFee(team) {
         const background = team.background;

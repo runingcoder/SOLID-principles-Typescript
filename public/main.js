@@ -2,7 +2,6 @@ import { TeamRepository, EmailService } from "./SRP.js";
 // import from .js file even though we are working with ts files. Remember this.
 const currentPageId = document.body.id;
 document.addEventListener("DOMContentLoaded", function () {
-    // Get all the navigation links
     const navLinks = document.querySelectorAll(".nav-link");
     // Loop through each navigation link and check if it matches the current page ID
     navLinks.forEach((link) => {
@@ -86,8 +85,7 @@ if (currentPageId !== "edit" && currentPageId !== "rankings" && currentPageId !=
     let formButton = document.getElementById("myForm");
     formButton.addEventListener("submit", (e) => {
         e.preventDefault();
-        if (!validateForm()) {
-            // Display an error message or prevent the form submission
+        if (!validateForm()) { // Display an error message or prevent the form submission
             alert("Please fill in all the fields.");
             return;
         }
@@ -97,7 +95,7 @@ if (currentPageId !== "edit" && currentPageId !== "rankings" && currentPageId !=
             appearanceFrequency: parseInt(appearanceFrequencyInput.value),
             email: emailInput.value,
             background: backgroundInput.value,
-            teamMembers: [],
+            teamMembers: []
         };
         const teamRepository = new TeamRepository();
         teamRepository.registerTeam(newTeam);
@@ -117,8 +115,7 @@ if (currentPageId !== "edit" && currentPageId !== "rankings" && currentPageId !=
         };
         const contentInfo = content.value.trim();
         const email = sendEmail.value.trim();
-        if (!contentInfo || !email) {
-            // Display an error message or prevent the form submission
+        if (!contentInfo || !email) { // Display an error message or prevent the form submission
             alert("Please fill in all the fields.");
             emailForm.reset();
             return;

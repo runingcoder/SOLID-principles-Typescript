@@ -86,12 +86,14 @@ export class LocalStorageService {
 
 export class TeamOperation implements TeamOperationInterface {
     private teams : Team[];
-    private mainCalculatorFactory: MainFeeCalculator;
 // Good dependency injection practice  instead of calling the classes directly 
 // inside the constructor function, we call it in the argument.
-    constructor(mainCalculatorFactory: MainFeeCalculator) {     
+// private x: y;
+// constructor(x: y) {
+//   this.x = x;
+// shorthand for that is constructor(private x: y) 
+        constructor(private mainCalculatorFactory: MainFeeCalculator) {     
         this.teams = LocalStorageService.getItem<Team[]>("teamList") || [];
-        this.mainCalculatorFactory = mainCalculatorFactory;
     }
     calculateAndSetRegistrationFee(team : Team) {
         const background = team.background;
@@ -148,11 +150,10 @@ export class TeamOperation implements TeamOperationInterface {
 }
 export class TeamManagement implements TeamManagementInterface {
     private teams : Team[];
-        private monetaryRewardProvider: RewardProvider;
-    private giftCardRewardProvider: RewardProvider;
+    private monetaryRewardProvider: RewardProvider = new MonetaryRewardProvider();
+    private giftCardRewardProvider: RewardProvider = new GiftCardRewardProvider();
+
     constructor() {
-        this.monetaryRewardProvider = new MonetaryRewardProvider();
-        this.giftCardRewardProvider = new GiftCardRewardProvider();
         this.teams = LocalStorageService.getItem<Team[]>("teamList") || [];
     }
     

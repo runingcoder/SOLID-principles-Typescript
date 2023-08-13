@@ -10,7 +10,7 @@
 
 // And as for Dependency Inversion Principle, it says that high level modules should not depend on low level
 //  modules so, here, The MainFeeCalculator class depends on the FeeCalculatorFactory interface, not on 
-// concrete implementations. This inversion of control allows you to inject different factory implementations
+// concrete implementations. This dependency inversion allows you to inject different factory implementations
 // without changing the behavior of the MainFeeCalculator class. 
   export class MainFeeCalculator {
     private calculatorFactory: FeeCalculatorFactory;
@@ -47,9 +47,7 @@ export interface RegistrationFeeCalculator {
   }
   
   export class PrivateCollegeRegistrationFeeCalculator implements RegistrationFeeCalculator {
-    private appearanceFrequency: number;
-    constructor(appearanceFrequency: number) {
-      this.appearanceFrequency = appearanceFrequency;
+    constructor(private appearanceFrequency: number) {
     }
     calculateFee(): string {
       const baseFee = 35000;
@@ -60,9 +58,7 @@ export interface RegistrationFeeCalculator {
   }
   
   export class GovCollegeRegistrationFeeCalculator implements RegistrationFeeCalculator {
-    private appearanceFrequency: number;
-    constructor(appearanceFrequency: number) {
-      this.appearanceFrequency = appearanceFrequency;
+    constructor( private appearanceFrequency: number) {
     }
     calculateFee(): string {
       const baseFee = 25000;
@@ -74,9 +70,7 @@ export interface RegistrationFeeCalculator {
   }
   
   export class InternationalCollegeRegistrationFeeCalculator implements RegistrationFeeCalculator {
-    private appearanceFrequency: number;
-    constructor(appearanceFrequency: number) {
-      this.appearanceFrequency = appearanceFrequency;
+    constructor( private appearanceFrequency: number) {
     }
     calculateFee(): string {  
       const baseFee = 60000;
