@@ -148,7 +148,7 @@ export class TeamOperation implements TeamOperationInterface {
 }
 export class TeamManagement implements TeamManagementInterface {
     private teams : Team[];
-    private monetaryRewardProvider: RewardProvider;
+        private monetaryRewardProvider: RewardProvider;
     private giftCardRewardProvider: RewardProvider;
     constructor() {
         this.monetaryRewardProvider = new MonetaryRewardProvider();
@@ -288,16 +288,15 @@ export class TeamManagement implements TeamManagementInterface {
                 console.log("team member found")
                 // Set the redeemStatus to true
                 teamMember.redeemStatus = true;
-                console.log(teamMember.redeemStatus);
-                
+                console.log(teamMember.redeemStatus);                
                 // Calculate the reward for monetaryReward
-                const monetaryReward = this.monetaryRewardProvider.provideReward(teamMember.totalPoints);
-                teamMember.monetaryRewards = monetaryReward;
-                console.log(monetaryReward);
-                
-                // Calculate the reward for giftCardReward
-                const giftCardReward = this.giftCardRewardProvider.provideReward(teamMember.totalPoints);
-                teamMember.giftRewards = giftCardReward;
+               const monetaryReward = this.monetaryRewardProvider.provideReward(teamMember.totalPoints);
+               teamMember.monetaryRewards = monetaryReward;
+               console.log(monetaryReward);
+               
+               // Calculate the reward for giftCardReward
+               const giftCardReward = this.giftCardRewardProvider.provideReward(teamMember.totalPoints);
+               teamMember.giftRewards = giftCardReward;
 
                
                 // Exit the loop after finding the team member

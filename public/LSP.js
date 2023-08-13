@@ -10,8 +10,16 @@
 //  which is the parent class, and then we are assigning the objects to the respective subclasses.
 // In this way,we are using the object of the parent class to refer to the objects of the child class.
 // and that is a simple example of LSP principle that states,
+// Although I admit i couldn't find a proper example for this principle, but i think this is a good example
+// as it uses the method described in the parent class in the child classes .
 // "Derived classes must be substitutable for their base classes."
-export class MonetaryRewardProvider {
+export class RewardProvider {
+    provideReward(points) {
+        return points;
+    }
+    ;
+}
+export class MonetaryRewardProvider extends RewardProvider {
     provideReward(points) {
         // Calculate the monetary reward
         if (points <= 0) {
@@ -21,7 +29,7 @@ export class MonetaryRewardProvider {
         return monetaryReward;
     }
 }
-export class GiftCardRewardProvider {
+export class GiftCardRewardProvider extends RewardProvider {
     provideReward(points) {
         // Calculate the number of gift cards
         if (points <= 300) {
